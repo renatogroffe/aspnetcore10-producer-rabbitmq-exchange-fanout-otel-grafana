@@ -14,4 +14,14 @@ public static class OpenTelemetryExtensions
         ServiceVersion = typeof(OpenTelemetryExtensions).Assembly.GetName().Version!.ToString();
         ActivitySource = new ActivitySource(ServiceName, ServiceVersion);
     }
+
+    public static ActivityContext GetContextToInject(Activity? activity)
+    {
+        ActivityContext contextToInject = default;
+        if (activity != null)
+            contextToInject = activity.Context;
+        else if (Activity.Current != null)
+            contextToInject = Activity.Current.Context;
+        return contextToInject;
+    }
 }
