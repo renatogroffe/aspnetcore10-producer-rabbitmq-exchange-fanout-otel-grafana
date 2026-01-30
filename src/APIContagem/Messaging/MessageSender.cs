@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using OpenTelemetry.Context.Propagation;
-using OpenTelemetry.Trace;
 using APIContagem.Tracing;
 using OpenTelemetry;
 
@@ -13,13 +12,11 @@ public class MessageSender
 {
     private readonly ILogger<MessageSender> _logger;
     private readonly IConfiguration _configuration;
-    private readonly ActivitySource _activitySource;
 
     public MessageSender(ILogger<MessageSender> logger, IConfiguration configuration)
     {
         _logger = logger;
         _configuration = configuration;
-        _activitySource = new ActivitySource("APIContagem.Messaging");
     }
 
     public async Task SendMessageAsync<T>(T message)
