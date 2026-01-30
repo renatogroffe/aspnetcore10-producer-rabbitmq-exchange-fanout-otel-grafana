@@ -1,10 +1,30 @@
 using APIContagem;
 using APIContagem.Messaging;
 using APIContagem.Models;
+using APIContagem.Tracing;
+using Grafana.OpenTelemetry;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var resourceBuilder = ResourceBuilder.CreateDefault()
+    .AddService(serviceName: OpenTelemetryExtensions.ServiceName,
+        serviceVersion: OpenTelemetryExtensions.ServiceVersion);
+builder.Services.AddOpenTelemetry()
+    .WithTracing((traceBuilder) =>
+    {
+        traceBuilder
+            .AddSource(OpenTelemetryExtensions.ServiceName)
+            .SetResourceBuilder(resourceBuilder)
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation()
+            .AddEntityFrameworkCoreInstrumentation()
+            .AddConsoleExporter()
+            .UseGrafana();
+    }); 
+    
 builder.Services.AddOpenApi();
 
 builder.Services.AddSingleton<Contador>();
