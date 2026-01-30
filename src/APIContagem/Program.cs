@@ -19,8 +19,6 @@ builder.Services.AddOpenTelemetry()
             .AddSource(OpenTelemetryExtensions.ServiceName)
             .SetResourceBuilder(resourceBuilder)
             .AddAspNetCoreInstrumentation()
-            .AddHttpClientInstrumentation()
-            .AddEntityFrameworkCoreInstrumentation()
             .AddConsoleExporter()
             .UseGrafana();
     }); 
