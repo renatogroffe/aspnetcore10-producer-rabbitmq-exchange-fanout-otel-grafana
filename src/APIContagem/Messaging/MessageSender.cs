@@ -53,6 +53,7 @@ public class MessageSender
             activity?.SetTag("messaging.destination.name", exchangeName);
             activity?.SetTag("messaging.operation.type", "send");
             activity?.SetTag("body", bodyContent);
+            activity?.SetTag("propagation_id", contextToInject.TraceId.ToString());
 
             await channel.BasicPublishAsync(
                 exchange: exchangeName!,
