@@ -55,7 +55,7 @@ public class MessageSender
             activity?.SetTag("messaging.operation", "send");
             activity?.SetTag("messaging.destination.name", exchangeName);
             activity?.SetTag("messaging.operation.type", "send");
-            activity?.SetTag("message", bodyContent);
+            activity?.SetTag("body", bodyContent);
 
             await channel.BasicPublishAsync(
                 exchange: exchangeName!,
